@@ -276,6 +276,17 @@ jobs:
 #             - name: Run deployment scripts
 #               run: echo Completed Deployment
 
+              - name: ServiceNow Get Change
+                uses: ServiceNow/servicenow-devops-get-change@v1.38
+                with:
+                  devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+                  devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+                  instance-url: ${{ secrets.SN_INSTANCE_URL }}
+                  tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+                  context-github: ${{ toJSON(github) }}
+                  job-name: 'Deploy'
+                  change-details: '{"build_number":"21","pipeline_name":"CI_Pipeline","stage_name":"Create_Change"}'
+
     postdeploy:
         #if: github.event.pull_request.merged == true
         name: Post Deploy
