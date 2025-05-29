@@ -200,13 +200,13 @@ jobs:
           interval: '100'
           timeout: '3600'
           changeCreationTimeOut: ;'1000'
-          deployment-gate: '{"environment":"prod","jobName":"Deploy"}'
+          deployment-gate: '{"environment":"PROD","jobName":"Deploy"}'
 
   deploy:
     name: 'Deploy'
     needs: change
     runs-on: ubuntu-latest
-    environment: prod
+    environment: PROD
     steps:
       - name: Run deployment scripts
         run: echo Completed Deployment. 
