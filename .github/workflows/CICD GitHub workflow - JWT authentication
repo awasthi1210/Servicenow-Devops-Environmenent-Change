@@ -90,7 +90,7 @@ jobs:
                   "semanticVersion": "1.${{ github.run_number }}.0",
                   "repositoryName": "${{ github.repository }}"
               }
-          ]'
+            ]'
 
   # sonarScan:
   #  name: 'Sonar Scan'
@@ -175,7 +175,7 @@ jobs:
                   "semanticVersion": "1.${{ github.run_number }}.0",
                   "repositoryName": "${{ github.repository }}"
               }
-          ]'
+           ]'
           # Name of the Package that contains list of artifacts
           package-name: 'app-devops-change-velocity-cicd.war'
           # Display Name of Job
