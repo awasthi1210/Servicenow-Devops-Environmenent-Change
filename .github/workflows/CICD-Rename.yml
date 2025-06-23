@@ -1,6 +1,6 @@
 # This workflow uses ServiceNow custom actions that are certified by ServiceNow.
 
-name: Mona CICD with v2
+name: CICD Workflow with v2
 on:   workflow_dispatch
   # push:
   #   branches: [ "main" ]
