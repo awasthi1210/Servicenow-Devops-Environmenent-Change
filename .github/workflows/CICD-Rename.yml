@@ -210,7 +210,7 @@ jobs:
   #     - name: Run deployment scripts
   #       run: echo Completed Deployment. 
 
-getchange:
+ getchange:
     # jobs that must complete successfully before this job will run
     needs: change
     # type of machine to run the job on
@@ -241,7 +241,7 @@ getchange:
       - name: Output of ServiceNow DevOps Get Change
         run: echo 'Output of ServiceNow DevOps Get Change is -> change-request-number = ${{ steps.get_change.outputs.change-request-number }}' >> $GITHUB_OUTPUT
 
-updatechange:
+ updatechange:
     # jobs that must complete successfully before this job will run
     needs: getchange
     # type of machine to run the job on
