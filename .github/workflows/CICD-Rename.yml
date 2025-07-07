@@ -12,44 +12,7 @@ on:   workflow_dispatch
 #   schedule:
 #     - cron: '*/2 * * * *'
 
-jobs:
- # jFrog:
- #   runs-on: ubuntu-latest
-
- #   steps:
- #   # This action checks out the code from the repository
- #   - name: Checkout Code 
- #     uses: actions/checkout@v2
-
-
- #   # This action sets up the JFrog CLI with the Artifactory URL and access token     
- #   - uses: jfrog/setup-jfrog-cli@v3
- #     env:
- #       JF_URL: "https://trialrr40c3.jfrog.io/"
- #       JF_ACCESS_TOKEN: "cmVmdGtuOjAxOjE3ODEyNjE2Mjg6UDliT1BwbDJpaDdlWHB5NHZZYmFtcjBaeXoy"
-
-
- #   # This command adds a new server configuration to the JFrog CLI   
- #   - run: |
- #       export SERVER_ID="venkata7"
- #       jf c add $SERVER_ID --url="https://trialrr40c3.jfrog.io/" --access-token="cmVmdGtuOjAxOjE3ODEyNjE2Mjg6UDliT1BwbDJpaDdlWHB5NHZZYmFtcjBaeXoy" --interactive=false
-
- #  # Upload the JFrog Artifact, in the below we are upload README.md artifact.
- #   - name: Run JFrog CLI Ping
- #     run: |
- #          export JFROG_CLI_HOME="/home/runner/work/jenkins-test/jenkins-test"
- #          jf rt u "README.md" "tf-trial/workspaces/jfrog-ws1/"
- #          # Collect environment variables for the build
- #          jf rt bce
- #          # Publish build info
- #          jf rt bp
-
- #   # Download the JFrog Artifact, in the below we are Downloading README.md artifact.
- #   - name: Download Artifact
- #     run: |
- #          jf rt dl tf-trial/workspaces/jfrog-ws1/README.md ./ 
- #          jf rt bp
-          
+jobs:         
  build:
    name: 'Build'
    runs-on: ubuntu-latest
@@ -65,7 +28,7 @@ jobs:
     - name: Build with Maven
       run: mvn clean compile
 
-  test:
+ test:
     name: 'Test'
     needs: build
     runs-on: ubuntu-latest
@@ -97,7 +60,7 @@ jobs:
            # if only JUnit tests,target/  use target/surefire-reports/testng-results.xml
             # if both JUnit & TestNG tests, use target/surefire-reports/testng-junit-results/testng-results.xml
 
-  registerArtifact:
+ registerArtifact:
     name: 'Register Artifact'
     needs: test
     runs-on: ubuntu-latest
@@ -125,10 +88,9 @@ jobs:
                   "version": "1.${{ github.run_number }}",
                   "semanticVersion": "1.${{ github.run_number }}.0",
                   "repositoryName": "${{ github.repository }}"
-              }
-          ]'
+              }]'
 
-  sonarScan:
+ sonarScan:
    name: 'Sonar Scan'
    needs: registerArtifact
    runs-on: ubuntu-latest
@@ -157,7 +119,7 @@ jobs:
          # Sonar Project Key
          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
 
-  ServiceNowSecurityScanResults:
+ ServiceNowSecurityScanResults:
     # type of machine to run the job on
     runs-on: ubuntu-latest
     name: ServiceNow Security Scan Results
@@ -184,7 +146,7 @@ jobs:
             buildVersion: Veracode Scan name / build version and is optional. This attribute is applicable only for Veracode.
             securityToolId: Security tool onboarded in ServiceNow (sys_id of the onboarded security tool) and is optional.
 
-  registerPackage:
+ registerPackage:
     name: 'Register Package'
     needs: [ServiceNowSecurityScanResults]
     runs-on: ubuntu-latest
@@ -210,8 +172,7 @@ jobs:
                   "version": "1.${{ github.run_number }}",
                   "semanticVersion": "1.${{ github.run_number }}.0",
                   "repositoryName": "${{ github.repository }}"
-              }
-          ]'
+              }]'
           # Name of the Package that contains list of artifacts
           package-name: 'app-devops-change-velocity-cicd.war'
           # Display Name of Job
@@ -280,7 +241,7 @@ getchange:
       - name: Output of ServiceNow DevOps Get Change
         run: echo 'Output of ServiceNow DevOps Get Change is -> change-request-number = ${{ steps.get_change.outputs.change-request-number }}' >> $GITHUB_OUTPUT
 
- updatechange:
+updatechange:
     # jobs that must complete successfully before this job will run
     needs: getchange
     # type of machine to run the job on
