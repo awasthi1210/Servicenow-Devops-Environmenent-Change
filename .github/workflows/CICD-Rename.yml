@@ -28,7 +28,7 @@ jobs:
     - name: Build with Maven
       run: mvn clean compile
 
- test:
+test:
     name: 'Test'
     needs: build
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
            # if only JUnit tests,target/  use target/surefire-reports/testng-results.xml
             # if both JUnit & TestNG tests, use target/surefire-reports/testng-junit-results/testng-results.xml
 
- registerArtifact:
+registerArtifact:
     name: 'Register Artifact'
     needs: test
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
                   "repositoryName": "${{ github.repository }}"
               }]'
 
- sonarScan:
+sonarScan:
    name: 'Sonar Scan'
    needs: registerArtifact
    runs-on: ubuntu-latest
@@ -146,7 +146,7 @@ jobs:
  #            buildVersion: Veracode Scan name / build version and is optional. This attribute is applicable only for Veracode.
  #            securityToolId: Security tool onboarded in ServiceNow (sys_id of the onboarded security tool) and is optional.
 
- registerPackage:
+registerPackage:
     name: 'Register Package'
     needs: [sonarScan]
     runs-on: ubuntu-latest
@@ -201,7 +201,7 @@ jobs:
           # "autoCloseChange":true,
           # deployment-gate: '{"environment":"PROD","jobName":"Deploy"}'
 
-  deploy:
+deploy:
     name: 'Deploy'
     needs: registerPackage
     runs-on: ubuntu-latest
@@ -210,7 +210,7 @@ jobs:
       - name: Run deployment scripts
         run: echo Completed Deployment. 
 
- getchange:
+getchange:
     # jobs that must complete successfully before this job will run
     needs: change
     # type of machine to run the job on
@@ -241,7 +241,7 @@ jobs:
       - name: Output of ServiceNow DevOps Get Change
         run: echo 'Output of ServiceNow DevOps Get Change is -> change-request-number = ${{ steps.get_change.outputs.change-request-number }}' >> $GITHUB_OUTPUT
 
- updatechange:
+updatechange:
     # jobs that must complete successfully before this job will run
     needs: getchange
     # type of machine to run the job on
