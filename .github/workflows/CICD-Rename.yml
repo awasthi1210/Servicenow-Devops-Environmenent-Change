@@ -1,5 +1,4 @@
 # This workflow uses ServiceNow custom actions that are certified by ServiceNow.
-
 name: CICD Workflow with v2
 on:   workflow_dispatch
   # push:
@@ -178,7 +177,7 @@ jobs:
           # Display Name of Job
           job-name: 'Register Package'
           
- change:
+  change:
     name: Change Request
     if: always()
     needs: registerPackage
